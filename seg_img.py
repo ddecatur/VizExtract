@@ -1,10 +1,7 @@
 import cv2
 import numpy as np
-from PIL import Image
-from sklearn.cluster import KMeans
 from k_means_clustering import *
 from color_processing import *
-import math
 
 
 def sat_thresh_filter(img,thresh):
@@ -81,7 +78,7 @@ def idColor(image, preprocess=True):
     if preprocess:
         image = sat_thresh_filter(image,40)
 
-    clt = KMeansCluster(image,ogImg) # maybe come back and simplify this
+    clt = KMeansCluster(image)
     hist = clusterCounts(clt)
     # determine which colors to segment out
     colList = list()
