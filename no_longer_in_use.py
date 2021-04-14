@@ -285,3 +285,278 @@ def tests():
     plt.axis("off")
     plt.imshow(bar)
     plt.show()
+
+# from object prediction
+
+#   print(output_dict.keys())
+#   print(output_dict['num_detections'])
+  #output_dict['detection_boxes']
+
+def predict():
+    predictions = []
+    for image_path in TEST_IMAGE_PATHS:
+        predictions.append(show_inference(detection_model, image_path))
+    return predictions
+
+single_img_path = "images/test.jpg" #PATH_TO_TEST_IMAGES_DIR.glob("test.jpg")
+# print(single_img_path)
+# print(assign_labels(show_inference(detection_model, single_img_path)))
+
+#show_inference(detection_model, single_img_path, 1)
+
+
+#   # Visualization of the results of a detection.
+  
+  
+#   vis_util.visualize_boxes_and_labels_on_image_array(
+#       image_np,
+#       output_dict['detection_boxes'],
+#       output_dict['detection_classes'],
+#       output_dict['detection_scores'],
+#       category_index,
+#       instance_masks=output_dict.get('detection_masks_reframed', None),
+#       use_normalized_coordinates=True,
+#       line_thickness=8)
+# #   plt.figure()
+# #   plt.imshow(Image.fromarray(image_np))
+# #   plt.savefig('testod.png')
+#   #display(Image.fromarray(image_np))
+#   Image.fromarray(image_np).save('predictions/testod'+ str(i) +'.png')
+
+'''
+Notes form vis/vis function
+'''
+#box_to_display_str_map = collections.defaultdict(list)
+  #box_to_color_map = collections.defaultdict(str)
+  #box_to_instance_masks_map = {}
+  #box_to_instance_boundaries_map = {}
+  #box_to_keypoints_map = collections.defaultdict(list)
+  #box_to_keypoint_scores_map = collections.defaultdict(list)
+  #box_to_track_ids_map = {}
+ #   if instance_masks is not None:
+    #     box_to_instance_masks_map[box] = instance_masks[i]
+    #   if instance_boundaries is not None:
+    #     box_to_instance_boundaries_map[box] = instance_boundaries[i]
+    #   if keypoints is not None:
+    #     box_to_keypoints_map[box].extend(keypoints[i])
+    #   if keypoint_scores is not None:
+    #     box_to_keypoint_scores_map[box].extend(keypoint_scores[i])
+    #   if track_ids is not None:
+    #     box_to_track_ids_map[box] = track_ids[i]
+    #   if scores is None:
+    #     box_to_color_map[box] = groundtruth_box_visualization_color
+    #   else:
+        
+
+        #   if not display_str:
+        #     display_score = '{}%'.format(round(100*scores[i]))
+        #     #display_str = '{}%'.format(round(100*scores[i]))
+        #   else:
+        #     #display_str = '{}: {}%'.format(display_str, round(100*scores[i]))
+        #     displ
+        # if not skip_track_ids and track_ids is not None:
+        #   if not display_str:
+        #     display_str = 'ID {}'.format(track_ids[i])
+        #   else:
+        #     display_str = '{}: ID {}'.format(display_str, track_ids[i])
+        #box_to_class_and_score_map[box].append((display_class, display_score))
+        # if agnostic_mode:
+        #   box_to_color_map[box] = 'DarkOrange'
+        # elif track_ids is not None:
+        #   prime_multipler = _get_multiplier_for_color_randomness()
+        #   box_to_color_map[box] = STANDARD_COLORS[
+        #       (prime_multipler * track_ids[i]) % len(STANDARD_COLORS)]
+        # else:
+        #   box_to_color_map[box] = STANDARD_COLORS[
+        #       classes[i] % len(STANDARD_COLORS)]
+
+#   # record coords
+#   for box, st in box_to_display_str_map.items():
+#       ymin, xmin, ymax, xmax = box
+#       print(st[0])
+#       #print(st[1])
+#       if st[0] not in box_dic:
+#           box_dic[st[0]] = set()
+#       box_dic[st[0]].add(box)
+
+
+
+
+# ----------------------------------------------
+# from ocr.py
+# start = datetime.datetime.now()
+# segImg = segmentImg('images/test.jpg') # 'test_images/test1.png') #legend_test.png')
+# print('segImg elapsed time: ', (datetime.datetime.now()-start).total_seconds())
+# start = datetime.datetime.now()
+# label_dict = assign_labels(show_inference(detection_model, single_img_path))
+# ocr = OCR('images/test.jpg', segImg, label_dict) # 'test_images/test1.png', segImg) #legend_test.png', segImg)
+# res = ocr.crop()
+# print(res)
+# # for i in range(ocr.n_boxes):
+# #     if int(ocr.d['conf'][i]) > 60:
+# #         (x,y,w,h) = (ocr.d['left'][i], ocr.d['top'][i], ocr.d['width'][i], ocr.d['height'][i])
+# #         img = cv2.rectangle(ocr.img, (x, y), (x + w, y + h), (0, 255, 0), 2)
+# # # cv2.imshow('img', img)
+# # # cv2.waitKey(0)
+# # ocr.axisLab()
+# print('OCR elapsed time: ', (datetime.datetime.now()-start).total_seconds())
+# #print(ocr.d['text'])
+# print(ocr.xAxisLab)
+# print(ocr.yAxisLab)
+# ocr.bbDist()
+# print(ocr.seriesCorsp)
+# for i,elem in enumerate(ocr.di):
+#     #print(elem)
+#     #print('new dict')
+#     for text in elem['text']:
+#         #print(text)
+#         if (not text.isspace()) and text!='':
+#             print(text)
+# for i in range(0,ocr.idvdilen):
+#     print(ocr.di[i]['text'])
+# ocr.mser()
+
+# # ------------ Following preprocessing functions taken from https://nanonets.com/blog/ocr-with-tesseract/ ------------
+
+
+# # noise removal
+# def remove_noise(image):
+#     return cv2.medianBlur(image,5)
+ 
+
+
+# #dilation
+# def dilate(image):
+#     kernel = np.ones((5,5),np.uint8)
+#     return cv2.dilate(image, kernel, iterations = 1)
+    
+# #erosion
+# def erode(image):
+#     kernel = np.ones((5,5),np.uint8)
+#     return cv2.erode(image, kernel, iterations = 1)
+
+# #opening - erosion followed by dilation
+# def opening(image):
+#     kernel = np.ones((5,5),np.uint8)
+#     return cv2.morphologyEx(image, cv2.MORPH_OPEN, kernel)
+
+# #canny edge detection
+# def canny(image):
+#     return cv2.Canny(image, 100, 200)
+
+# #skew correction
+# def deskew(image):
+#     coords = np.column_stack(np.where(image > 0))
+#     angle = cv2.minAreaRect(coords)[-1]
+#     if angle < -45:
+#         angle = -(90 + angle)
+#     else:
+#         angle = -angle
+#     (h, w) = image.shape[:2]
+#     center = (w // 2, h // 2)
+#     M = cv2.getRotationMatrix2D(center, angle, 1.0)
+#     rotated = cv2.warpAffine(image, M, (w, h), flags=cv2.INTER_CUBIC, borderMode=cv2.BORDER_REPLICATE)
+#     return rotated
+
+# #template matching
+# def match_template(image, template):
+#     return cv2.matchTemplate(image, template, cv2.TM_CCOEFF_NORMED)
+# # ------------ End preprocessing functions ------------
+
+def mser(self):
+        '''
+        METHOD #1
+        '''
+        _, bw = cv2.threshold(self.img, 0.0, 255.0, cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)
+        kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (20, 1))
+        connected = cv2.morphologyEx(bw, cv2.MORPH_CLOSE, kernel)
+        contours, hierarchy,=cv2.findContours(connected.copy(),cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_NONE)
+        counter=0
+        array_of_texts=[]
+        for idx in range(len(contours)):
+            x, y, w, h = cv2.boundingRect(contours[idx])
+            cropped_image = self.image_obj.crop((x-10, y, x+w+10, y+h ))
+            str_store = re.sub(r'([^\s\w]|_)+', '', pytesseract.image_to_string(cropped_image))
+            d = pytesseract.image_to_data(cropped_image, config='--psm 12 -c tessedit_char_whitelist=0123456789.abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', output_type=Output.DICT)#pytesseract.image_to_string(cropped_image))
+            self.di.append(d)
+            array_of_texts.append(str_store)
+            counter+=1
+        self.idvdilen = len(contours)
+        #print(array_of_texts)
+        #print('len of cont: ' + str(self.idvdilen))
+        
+        
+        self.di.append({'text': ['now on to method #2']})
+        '''
+        METHOD #2
+        '''
+        # mser = cv2.MSER_create()
+        # vis = self.img.copy()
+        # regions, bboxes = mser.detectRegions(self.img)
+        # hulls = [cv2.convexHull(p.reshape(-1, 1, 2)) for p in regions]
+        # cv2.polylines(vis, hulls, 1, (0, 255, 0))
+        # # cv2.imshow('img', vis)
+        # # cv2.waitKey(0)
+        # mask = np.zeros((self.img.shape[0], self.img.shape[1], 1), dtype=np.uint8)
+        # for contour in hulls:
+        #     x, y, w, h = cv2.boundingRect(contours[idx])
+        #     cropped_image = self.image_obj.crop((x-10, y, x+w+10, y+h ))
+        #     cv2.drawContours(mask, [contour], -1, (255, 255, 255), -1)
+        #     d = pytesseract.image_to_data(cropped_image, config='--psm 12', output_type=Output.DICT)#pytesseract.image_to_string(cropped_image))
+        #     self.di.append(d)
+        # text_only = cv2.bitwise_and(self.img, self.img, mask=mask)
+        # # cv2.imshow("text only", text_only)
+        # # cv2.waitKey(0)
+
+
+        # vis = self.img.copy()
+        # mser = cv2.MSER_create()
+        # regions = mser.detectRegions(self.img)
+        # hulls = [cv2.convexHull(p.reshape(-1, 1, 2)) for p in regions]
+        # cv2.polylines(vis, hulls, 1, (0, 255, 0))
+        # cv2.imshow('img', vis)
+        # cv2.waitKey(0)
+        # cv2.destroyAllWindows()
+
+        # for bbox in bboxes:
+        #     (x,y,w,h) = tuple(bbox)
+        #     # print(bbox)
+        #     display = cv2.rectangle(self.img, (x,y), (x+w, y+h), (0,255,0), 2)
+        # print('regions')
+        # for reg in regions:
+        #     # print(reg)
+        #     print(pytesseract.image_to_string(reg))
+
+        # cv2.imshow('display', display)
+        # cv2.waitKey(0)
+
+
+# noise removal
+def remove_noise(self):
+    self.img = cv2.GaussianBlur(self.img,(11,11),0)
+
+#thresholding
+def thresholding(self):
+    self.img = cv2.threshold(self.img, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1]
+
+def bbDist(self):
+        for i in range(0, self.n_boxes):
+            if int(self.d['conf'][i]) > 60 and (not self.d['text'][i].isspace()) and self.d['text'][i]!='':
+                print(self.d['text'][i])
+                minD = self.dimensions[0] + self.dimensions[1]
+                pt = (self.d['left'][i], self.d['top'][i])
+                coordinates = {}
+                currCol = [-1]
+                for col in self.seg:
+                    indices = np.where(self.seg[col] != [0])
+                    coordinates[col] = zip(indices[0], indices[1])
+                    for cord in coordinates[col]:
+                        dist = self.dist(cord, pt)
+                        if dist <= minD:
+                            minD = dist
+                            currCord = cord
+                            currCol = col
+                if currCol!=[-1]:
+                    self.seriesCorsp[currCol] = self.d['text'][i]
+                else:
+                    print('never found min distance')
