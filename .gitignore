@@ -1,3 +1,9 @@
 .DS_Store
 res_object_detection/
 .vscode/
+models/
+__pycache__/
+pipeline_batch/
+images/*.jpg
+images/test.png
+k_placeholder.png

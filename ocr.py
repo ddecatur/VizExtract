@@ -30,13 +30,8 @@ class OCR():
         box_dict: dict, a dictionary containing the result of "assign_labels()"
             in "object_prediction.py"
         """
-
-        self.img = cv2.imread(image)
-        self.img = cv2.resize(self.img, (0,0), fx=3, fy=3)
-        im = Image.fromarray(self.img)
-        im.save("images/test.png")
+        
         self.image_obj = Image.open(image)
-        self.get_grayscale()
         self.box_dict = box_dict
         self.match_leg_img = None
         self.leg_box = None
@@ -47,14 +42,19 @@ class OCR():
         self.yAxisLab = None
         self.title = None
         self.legend = []
-        self.dimensions = self.img.shape
         self.d = None
-        # these following lines are only used for algorithic experimentation
+        # these following lines are only used for algorithm experimentation
         # purposes and thus can be commented out for now to save time
+        # ------------------------------------------------------------------
+        # self.img = cv2.imread(image)
+        # self.img = cv2.resize(self.img, (0,0), fx=3, fy=3)
+        # self.get_grayscale()
+        # self.dimensions = self.img.shape
         # self.d = pytesseract.image_to_data(self.img,
         #     config='--psm 3 -c tessedit_char_whitelist=0123456789-_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',
         #     output_type=Output.DICT)
         # self.get_boxes()
+        # ------------------------------------------------------------------
     
     def isREGEX(self, string):
         """A function to determine if a given string does not
@@ -107,7 +107,6 @@ class OCR():
                         self.leg_text_boxes[elem] = (crpD['left'][i] + (crpD['width'][i])/2, crpD['top'][i] + (crpD['height'][i])/2) # 
 
             text_dict[self.box_dict[box]] = strlist
-
         return text_dict
 
 

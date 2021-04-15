@@ -1,9 +1,8 @@
 import pathlib
 import numpy as np
 import tensorflow as tf
+import label_map_util
 from PIL import Image
-from res_object_detection.utils import ops as utils_ops
-from res_object_detection.utils import label_map_util
 from six import viewkeys
 
 # set image dimension constants
@@ -31,7 +30,7 @@ def load_model():
         model from its directory and returns the model
 
     """
-    model = tf.saved_model.load('fine_tuned_model/saved_model')
+    model = tf.saved_model.load('models/object_detection/saved_model')
     model = model.signatures['serving_default']
     return model
 
@@ -84,16 +83,6 @@ def run_inference_for_single_image(model, image):
 
     # detection_classes should be ints.
     output_dict['detection_classes'] = output_dict['detection_classes'].astype(np.int64)
-    
-    # Handle models with masks:
-    if 'detection_masks' in output_dict:
-        # Reframe the the bbox mask to the image size.
-        detection_masks_reframed = utils_ops.reframe_box_masks_to_image_masks(
-                output_dict['detection_masks'], output_dict['detection_boxes'],
-                image.shape[0], image.shape[1])
-        detection_masks_reframed = tf.cast(detection_masks_reframed > 0.5,
-                                        tf.uint8)
-        output_dict['detection_masks_reframed'] = detection_masks_reframed.numpy()
         
     return output_dict
 
@@ -103,13 +92,6 @@ def record_boxes(image,
     classes,
     scores,
     category_index,
-    instance_masks=None, #remove these unused arguments
-    instance_boundaries=None,
-    keypoints=None,
-    keypoint_scores=None,
-    keypoint_edges=None,
-    track_ids=None,
-    use_normalized_coordinates=False,
     max_boxes_to_draw=20,
     min_score_thresh=.2,
     agnostic_mode=False,
@@ -135,7 +117,7 @@ def record_boxes(image,
         display_class = ''
         if not skip_labels:
           if not agnostic_mode:
-            if classes[i] in viewkeys(category_index): #six.viewkeys
+            if classes[i] in viewkeys(category_index):
               class_name = category_index[classes[i]]['name']
             else:
               class_name = 'N/A'
@@ -171,9 +153,7 @@ def show_inference(model, image_path):
         output_dict['detection_boxes'],
         output_dict['detection_classes'],
         output_dict['detection_scores'],
-        category_index,
-        instance_masks=output_dict.get('detection_masks_reframed', None),
-        use_normalized_coordinates=True)
+        category_index)
 
 
 

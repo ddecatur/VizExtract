@@ -9,6 +9,7 @@ from color_processing import dist
 import cv2
 import matplotlib.pyplot as plt
 import os
+import time
 
 # mapping of rgb values to colors
 # used for "find_nearest_col(_, posRGB)"
@@ -195,9 +196,14 @@ def run(img, algo='current', use_text_not_color=True):
     rtn2 = {}
     col_to_cat_map = {}
     col_to_seg_map = {}
+    segmentImg_start_time = time.time()
     segImg = segmentImg(img)
+    print('segment image total time: ', time.time() - segmentImg_start_time)
     jpgimg = Image.open(img).convert('RGB')
-    newimgp = img[:len(img)-3] + 'jpg' # convert png to jpg
+    # convert png to jpg
+    newimgp = img.split('.')[:-1]
+    newimgp = '.'.join(newimgp) + '.jpg'
+    newimgp = "images/" + newimgp.split('/')[-1]
     jpgimg.save(newimgp)
     jpgimg.close()
     ocr = OCR(img,assign_labels(show_inference(detection_model, newimgp)))
@@ -208,7 +214,7 @@ def run(img, algo='current', use_text_not_color=True):
         fname = "pipeline_batch/" + str(i) + ".png"
         plt.imsave(fname, res)
         cat = predictCategory(fname,
-            "models/correlation/graph_class_model_85_multi_pstyle.h5",
+            "models/classification/correlation_classification.h5",
             ['negative', 'neutral', 'positive'])
         colstr = "["
         for chanel in col:
@@ -290,6 +296,7 @@ def process_img(img_path, algo='current', use_text_not_color=True):
         not text to correlation
     """
 
+    process_img_start_time = time.time()
     # if the algo is set to 'old', then we also use the old OCR method described
     # in ocr.py
     if algo=='old':
@@ -314,7 +321,9 @@ def process_img(img_path, algo='current', use_text_not_color=True):
     else:
         result,text_dict,OCR = run(img_path, algo=algo,
             use_text_not_color=use_text_not_color)
+        crop_time = time.time()
         text_dict = OCR.crop()
+        print('crop time is: ', time.time() - crop_time)
         display_string = img_path
         for elem in text_dict:
             if elem != 'legend' and text_dict[elem] is not None:
@@ -324,10 +333,12 @@ def process_img(img_path, algo='current', use_text_not_color=True):
             for elem in result[series]:
                 corr_set.add(series + ": " + elem)
         
+        print('process_img_total_time', time.time() - process_img_start_time)
         return (display_string, corr_set)
 
 # Below is code used for testing individual graphs
-# strrrr, setttt = process_img('[path_to_graph]',
-#   use_text_not_color=False)
-# print(strrrr)
-# print(setttt)
+overall_start_time = time.time()
+strrrr, setttt = process_img('images/example.png', use_text_not_color=True)
+print(strrrr)
+print(setttt)
+print('overall_time', time.time() - overall_start_time)

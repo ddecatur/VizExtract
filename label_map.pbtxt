@@ -1,0 +1,14 @@
+item {
+    id: 1
+    name: 'plotspace'
+}
+
+item {
+    id: 2
+    name: 'text'
+}
+
+item {
+    id: 3
+    name: 'legend'
+}

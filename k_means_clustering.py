@@ -1,5 +1,5 @@
 from PIL import Image
-from sklearn.cluster import KMeans
+from sklearn.cluster import MiniBatchKMeans as KMeans
 import numpy as np
 import warnings
 from kneed import KneeLocator

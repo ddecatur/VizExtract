@@ -2,6 +2,7 @@ import cv2
 import numpy as np
 from k_means_clustering import *
 from color_processing import *
+import time
 
 
 def sat_thresh_filter(img,thresh):
@@ -27,13 +28,14 @@ def sat_thresh_filter(img,thresh):
 
     img = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
     new_img = np.empty(img.shape)
-    for i in range(img.shape[0]):
-        for j in range(img.shape[1]):
-            (h,s,v) = img[i][j]
-            if s > thresh:
-                new_img[i][j] = (h,255,255)
-            else:
-                new_img[i][j] = (h,0,255)
+    a_rows,a_cols = np.where(img[:,:,1] > thresh)
+    new_img[a_rows, a_cols, 0] = img[a_rows, a_cols, 0]
+    new_img[a_rows, a_cols, 1] = 255
+    new_img[a_rows, a_cols, 2] = 255
+    r_rows,r_cols = np.where(img[:,:,1] <= thresh)
+    new_img[a_rows, a_cols, 0] = img[a_rows, a_cols, 0]
+    new_img[r_rows, r_cols, 1] = 0
+    new_img[r_rows, r_cols, 2] = 255
     new_img = new_img.astype(np.uint8)
     new_img = cv2.cvtColor(new_img, cv2.COLOR_HSV2RGB)
     return new_img
@@ -56,7 +58,7 @@ def isGrayish(color):
         return False
 
 # type: img path --> list of color ranges
-def idColor(image, preprocess=True):
+def idColor(image, preprocess=True, preprocessedImg=None):
     """A function to determine and identify the colors corresponing to series
         in the image of the graph
 
@@ -72,13 +74,13 @@ def idColor(image, preprocess=True):
         corresponding to a series in the image of the graph
     """
 
-    ogImg = image
     # convert image
     image = cv2.imread(image)
     if preprocess:
-        image = sat_thresh_filter(image,40)
-
+        image = preprocessedImg
+    cluster_start_time = time.time()
     clt = KMeansCluster(image)
+    print('cluster total time: ', time.time() - cluster_start_time)
     hist = clusterCounts(clt)
     # determine which colors to segment out
     colList = list()
@@ -191,17 +193,21 @@ def hsvRange (rgbList):
     return rangeList
 
 
-def segmentImg(img, fixed_k=None, preprocess=True):
-    '''A function that, givn an image path, segments out colors from that image
+def segmentImg(img, preprocess=True):
+    '''A function that, given an image path, segments out colors from that image
     '''
 
     # read in image
     graph = cv2.imread(img)
     if preprocess:
+        preprocess_start_time = time.time()
         graph = sat_thresh_filter(graph,40)
+        print('preprocess time: ', time.time() - preprocess_start_time)
+        colList = idColor(img, preprocess=preprocess, preprocessedImg=graph)
+    else:
+        colList = idColor(img, preprocess=preprocess)
     
     # id colors for each series and their corresponding hsv ranges
-    colList = idColor(img, preprocess=preprocess)
     colRangeList = hsvRange(colList)
 
     # convert to hsv image type
