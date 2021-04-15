@@ -69,6 +69,7 @@ def match_series(col_to_seg_map,offset,leg_text_boxes,img_shape,
         mapping of colors to text but with the old algorithm
     """
 
+    match_series_time = time.time()
     rtn = {}
     rtn2 = {}
     matching = {}
@@ -159,6 +160,7 @@ def match_series(col_to_seg_map,offset,leg_text_boxes,img_shape,
                 rtn2[color] = text
         return (rtn,rtn2)
     
+    print('match_series_time: ', time.time() - match_series_time)
     return rtn
 
 
@@ -206,16 +208,22 @@ def run(img, algo='current', use_text_not_color=True):
     newimgp = "images/" + newimgp.split('/')[-1]
     jpgimg.save(newimgp)
     jpgimg.close()
+    object_detection_time = time.time()
     ocr = OCR(img,assign_labels(show_inference(detection_model, newimgp)))
+    print('object detection time: ', time.time() - object_detection_time)
+    crop_time_v1 = time.time()
     text_dict = ocr.crop()
+    print('crop time 1: ', time.time() - crop_time_v1)
     
     # add description here
     for i,(res,col) in enumerate(segImg):
         fname = "pipeline_batch/" + str(i) + ".png"
         plt.imsave(fname, res)
+        predict_total_time = time.time()
         cat = predictCategory(fname,
             "models/classification/correlation_classification.h5",
             ['negative', 'neutral', 'positive'])
+        print('predict time is: ', time.time() - predict_total_time)
         colstr = "["
         for chanel in col:
             if colstr == "[":
@@ -319,8 +327,10 @@ def process_img(img_path, algo='current', use_text_not_color=True):
         return (display_string, corr_set, corr_set2)
     # else we use the normal method
     else:
+        run_time_total = time.time()
         result,text_dict,OCR = run(img_path, algo=algo,
             use_text_not_color=use_text_not_color)
+        print('run time total: ', time.time() - run_time_total)
         crop_time = time.time()
         text_dict = OCR.crop()
         print('crop time is: ', time.time() - crop_time)

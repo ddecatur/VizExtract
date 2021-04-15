@@ -3,6 +3,7 @@ from sklearn.cluster import MiniBatchKMeans as KMeans
 import numpy as np
 import warnings
 from kneed import KneeLocator
+import time
 
 
 def clusterCounts(clt):
@@ -32,14 +33,17 @@ def elbowM(arr, kneedleBasic=False):
     --------
     kval: int, the appropriate value of k to use for k-means
     """
+
     with warnings.catch_warnings():
         warnings.simplefilter("ignore")
         arr = arr.reshape((arr.shape[0] * arr.shape[1], 3))
         maxk = 8
         y = []
         for i in range(1,maxk+1):
-            kmeans = KMeans(n_clusters=i)
+            kmeans = KMeans(n_clusters=i, batch_size=1000) # larger batch size gives faster results
+            kmeans_fit_time = time.time()
             kmeans.fit(arr)
+            print('kmeans_fit_time', time.time() - kmeans_fit_time)
             y.append(kmeans.inertia_)
         x = range(1, len(y)+1)
         kn = KneeLocator(x, y, S=3.0, online=True, curve='convex', direction='decreasing')
