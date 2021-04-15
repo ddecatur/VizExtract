@@ -1,7 +1,7 @@
 .DS_Store
 res_object_detection/
 .vscode/
-models/
+models/classification/
 __pycache__/
 pipeline_batch/
 images/*.jpg
