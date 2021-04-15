@@ -1,4 +1,3 @@
-
 def col_dist(c1,c2):
     """A fucntion that calculates the distance between two RGB colors
 
@@ -25,3 +24,9 @@ def find_nearest_col(color, dic):
             minD = d
             minC = dic.get(elem)
     return minC
+
+def dist(p1,p2):
+    """A function to find the distance between two points
+    """
+
+    return (((p1[0]-p2[0])**2) + ((p1[1]-p2[1])**2))**(1/2)

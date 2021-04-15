@@ -560,3 +560,115 @@ def bbDist(self):
                     self.seriesCorsp[currCol] = self.d['text'][i]
                 else:
                     print('never found min distance')
+
+# from pipeline.py
+# if col == 'bdfjhdjfhd':
+            #     for col in img:
+            #         for row in col:
+            #             specialph.append(row)
+            #     #indices = np.where(img != [0], [255], [0])
+            #     #mask_img = Image.fromarray(indices, 'RGB')
+            #     mask = np.array(indices, dtype=np.uint8)
+
+            #     cv2.imshow('mask', mask)
+            #     cv2.waitKey()
+            #     #mask_img.show()
+            # else:
+            #     #indices = np.where(img != [0])
+            #     aaa = 2
+# if distance < minD:
+                #     minD = distance
+                #     currCol = col
+                # if col == 'b':
+                #     print(distance)
+                #     print((xmed,ymed))
+                #     print(pt)
+                #     return 1
+            # print("after done color")
+            # print(col)
+            # print(minD)
+            #print(indices)
+            #break
+            # print(len(indices[0]))
+            # print(len(indices[1]))
+            # coordinates = zip(indices[0], indices[1])
+            #len(coordinates)
+            # for cord in coordinates:
+            #     distance = dist(cord, pt)
+            #     if distance < minD:
+            #         minD = distance
+            #         currCol = col
+            #         if col == 'b':
+            #             print(distance)
+            #             print(cord)
+            #             print(pt)
+            #             return 1
+            # print("after done color")
+            # print(col)
+            # print(minD)
+    
+        # if currCol!=None:
+        #     rtn[currCol] = elem
+        # else:
+        #     print('never found min distance')
+        #print(currCol)
+        #print(rtn[currCol])
+    #print(dist_list)
+
+# ---------------------- OLD ALGO ---------------------
+    # for dist_elem in dist_list:
+    #     (text, color) = matching[dist_elem]
+    #     if text not in seen_already and color not in seen_already:
+    #         seen_already.append(text)
+    #         seen_already.append(color)
+    #         rtn[color] = text
+
+#if ocr.match_leg_img:
+        #print('yes')
+
+        #ocr.match_leg_img.save("legend_cropped.jpg")
+        #segLeg = segmentImg("legend_cropped.jpg",fixed_k=len(segImg))
+    # print(text_dict)
+    # print('segimg len:')
+    # print(len(segImg))
+    #color_list = []
+
+# if col == 'g':
+        #     for col in img_shape:
+        #         for row in col:
+        #             image_holder.append(row)
+
+        #     # write csv files
+        #     with open('./image_holder.csv', 'w') as f:
+        #         writer = csv.writer(f, delimiter=',')
+        #         writer.writerows(image_holder)
+        #     f.close()
+
+        # if col in rtn:
+        #     col=col+str(i)
+        #     colorMap[col]=col
+        #     print('pipeline error: overwrite color')
+        # rtn[variable] = cat
+        #rtn.append(cat)
+
+    
+    
+    # print('col_to_series_map')
+    # print(col_to_series_map)
+    
+
+    # color_list = []
+    # if segLeg!=None:
+    #     print("yes2")
+    #     for res,col in segLeg:
+    #         fname = "pipeline_batch/test_leg.png"
+    #         plt.imsave(fname, res)
+    #         color_list.append(avg_height(res))
+    # color_list.sort(reverse=True)
+    # print(color_list)
+    #print(col_to_cat_map)
+
+# for res,col in segImg:
+            # self.seg[tuple(col)] = res
+            # color_list.append(match_series(np.asarray(crp_res), ocr.crop_amount, ocr.leg_text_boxes)) # added the crop amount here to be able to recover the coordinates of the text boxes
+
