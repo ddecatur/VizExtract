@@ -7,4 +7,4 @@ To replicate the model transfer experiments listed in the paper, use the code in
 
 To replicate the end-to-end results run the code in `pipeline_testing.py`
 
-The full copy of the paper is contained in `VizExtract_FULL.pdf`
+The full copy of the paper (including the appendix) is contained in `VizExtract_FULL.pdf`
