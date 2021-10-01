@@ -202,7 +202,6 @@ def create_multiData(n, sN, train_val, seriesType, dcolor, dataStyle, model, pst
         elif GT == 'bar':
             w = 0.8
             ax.bar((len(varArr)*X1)+(w*i), X2, width=w, align='center', label=lbl, color=colArr[i])
-            ax.bar((len(varArr)*X1)+(w*i), X2, width=w, align='center', label=lbl, color=colArr[i])
         else:
             raise ValueError('graph type not recognized')
 
