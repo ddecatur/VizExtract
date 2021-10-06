@@ -1,5 +1,6 @@
 from PIL import Image
-from sklearn.cluster import MiniBatchKMeans as KMeans
+from sklearn.cluster import MiniBatchKMeans as miniKMeans
+from sklearn.cluster import KMeans
 import numpy as np
 import warnings
 from kneed import KneeLocator
@@ -40,10 +41,10 @@ def elbowM(arr, kneedleBasic=False):
         maxk = 8
         y = []
         for i in range(1,maxk+1):
-            kmeans = KMeans(n_clusters=i, batch_size=1000) # larger batch size gives faster results
+            kmeans = miniKMeans(n_clusters=i, batch_size=1000) # larger batch size gives faster results
             kmeans_fit_time = time.time()
             kmeans.fit(arr)
-            print('kmeans_fit_time', time.time() - kmeans_fit_time)
+            #print('kmeans_fit_time', time.time() - kmeans_fit_time)
             y.append(kmeans.inertia_)
         x = range(1, len(y)+1)
         kn = KneeLocator(x, y, S=3.0, online=True, curve='convex', direction='decreasing')

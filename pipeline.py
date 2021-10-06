@@ -223,6 +223,7 @@ def run(img, algo='current', use_text_not_color=True):
         cat = predictCategory(fname,
             "models/classification/correlation_classification.h5",
             ['negative', 'neutral', 'positive'])
+        print(col)
         print('predict time is: ', time.time() - predict_total_time)
         colstr = "["
         for chanel in col:
@@ -347,8 +348,8 @@ def process_img(img_path, algo='current', use_text_not_color=True):
         return (display_string, corr_set)
 
 # Below is code used for testing individual graphs
-overall_start_time = time.time()
-strrrr, setttt = process_img('images/example.png', use_text_not_color=True)
-print(strrrr)
-print(setttt)
-print('overall_time', time.time() - overall_start_time)
+# overall_start_time = time.time()
+# strrrr, setttt = process_img('images/deeprule_test5.png', use_text_not_color=True)
+# print(strrrr)
+# print(setttt)
+# print('overall_time', time.time() - overall_start_time)
